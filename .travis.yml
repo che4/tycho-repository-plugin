@@ -3,5 +3,5 @@ cache:
   directories:
   - "$HOME/.m2"
 script: >-
-  maven --global-settings ./.travis/settings.xml -Dchangelist=.$TRAVIS_BUILD_NUMBER deploy
+  mvn --global-settings ./.travis/settings.xml -Dchangelist=.$TRAVIS_BUILD_NUMBER deploy
 
