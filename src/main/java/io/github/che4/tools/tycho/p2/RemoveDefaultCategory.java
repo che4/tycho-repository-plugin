@@ -154,7 +154,15 @@ public class RemoveDefaultCategory extends AbstractTychoPackagingMojo {
 	 */
 	@Parameter(defaultValue = "false")
 	private boolean removeDefaultCategory;
-	
+	/**
+	 * Search p2 IU (installable unit) that contains <tt>defaultCategoryPattern</tt> in ID.
+	 * The parameter is only evaluated if <tt>removeDefaultCategory</tt> is <tt>true</tt>.
+	 * <p>
+	 * By default update site generates category named <tt>Uncategorized</tt> that may be unwanted. If update site contains features or plugins, then
+	 * that category ID is randomly generated with <tt>.Default</tt> suffix &ndash; <tt>js72gsl234.Default</tt>. But when update site contains only categories tree
+	 * the generated ID is <tt>Default</tt> - in that case set <tt>defaultCategoryPattern</tt> to <tt>Default</tt>
+	 * </p>
+	 */
 	@Parameter(defaultValue = ".Default")
 	private String defaultCategoryPattern;
 	
@@ -427,6 +435,7 @@ public class RemoveDefaultCategory extends AbstractTychoPackagingMojo {
 						String id = unit.getAttribute("id");
 						if (id != null && id.contains(defaultCategoryPattern)) {
 							unit.getParentNode().removeChild(unit);
+							getLog().info("Removed Uncategorized category with ID="+id);
 						}
 					}
 					unitsElement.setAttribute("size", Integer.toString(unitsElement.getElementsByTagName("unit").getLength()));

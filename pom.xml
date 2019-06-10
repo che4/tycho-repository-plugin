@@ -3,7 +3,7 @@
 	<groupId>io.github.che4</groupId>
 	<artifactId>tycho-repository-plugin</artifactId>
 	<version>${revision}${changelist}</version>
-	<name>Che4 :: Tycho repository plugin</name>
+	<name>Tycho repository maven plugin</name>
 	<packaging>maven-plugin</packaging>
 	
 	<properties>
