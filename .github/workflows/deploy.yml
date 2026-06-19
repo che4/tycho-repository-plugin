@@ -1,0 +1,33 @@
+name: Deploy
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write # to be able to publish a GitHub release
+  issues: write # to be able to comment on released issues
+  pull-requests: write # to be able to comment on released pull requests
+  id-token: write # to enable use of OIDC for trusted publishing and npm provenance
+jobs:
+
+  release:
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://central.sonatype.com/publishing/io.github.che4
+    if: github.ref == 'refs/heads/main'
+    #if: github.ref == 'refs/heads/dev' && (startsWith(github.event.head_commit.message, 'release ') || startsWith(github.event.head_commit.message, 'rc ') )
+    #if: github.base_ref == 'dev' && (startsWith(github.event.head_commit.message, 'release ') || startsWith(github.event.head_commit.message, 'rc ') )
+    #if: startsWith(github.ref, 'refs/tags/') && github.base_ref == 'master' && contains(fromJSON('["release", "rc"]'), github.event.head_commit.message)
+
+    env:
+      MAVEN_TOKEN: ${{ secrets.MAVEN_CENTRAL_TOKEN }}
+      MAVEN_USERNAME: ${{ secrets.MAVEN_CENTRAL_TOKEN_USERNAME }}
+
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: temurin
+      - name: Run the Maven verify phase
+        run: mvn --batch-mode --update-snapshots -Drepo.id=central -Drepo.login=$MAVEN_USERNAME -Drepo.pwd=$MAVEN_TOKEN 

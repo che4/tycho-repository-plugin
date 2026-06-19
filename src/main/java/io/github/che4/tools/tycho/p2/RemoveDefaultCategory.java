@@ -10,10 +10,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.UnknownHostException;
-import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -40,15 +36,11 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
 import org.apache.commons.compress.compressors.xz.XZCompressorOutputStream;
-import org.apache.commons.io.IOUtils;
-import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
-import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
-import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.archiver.zip.ZipArchiver;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.IOUtil;
@@ -57,7 +49,7 @@ import org.eclipse.tycho.PackagingType;
 import org.eclipse.tycho.ReactorProject;
 import org.eclipse.tycho.core.ArtifactDependencyVisitor;
 import org.eclipse.tycho.core.FeatureDescription;
-import org.eclipse.tycho.core.TychoProject;
+import org.eclipse.tycho.core.osgitools.DefaultReactorProject;
 import org.eclipse.tycho.core.osgitools.EclipseRepositoryProject;
 import org.eclipse.tycho.model.FeatureRef;
 import org.eclipse.tycho.model.UpdateSite;
@@ -187,7 +179,7 @@ public class RemoveDefaultCategory extends AbstractTychoPackagingMojo {
 		// ${update.site.description}
 
 		File outputRepository = new File(this.project.getBuild().getDirectory(), "repository");
-		File buildinfoFolder = new File(this.project.getBuild().getDirectory(), "buildinfo");
+		//File buildinfoFolder = new File(this.project.getBuild().getDirectory(), "buildinfo");
 
 		// If a siteTemplateFolder is set, pull index.html and site.css from
 		// there; otherwise use defaults
@@ -342,7 +334,7 @@ public class RemoveDefaultCategory extends AbstractTychoPackagingMojo {
 		} catch (IOException ex) {
 			throw new MojoExecutionException("Could not read 'category.xml' file", ex);
 		}
-		new EclipseRepositoryProject().getDependencyWalker(this.project).traverseUpdateSite(site, new ArtifactDependencyVisitor() {
+		new EclipseRepositoryProject().getDependencyWalker(DefaultReactorProject.adapt(this.project)).traverseUpdateSite(site, new ArtifactDependencyVisitor() {
 			@Override
 			public boolean visitFeature(FeatureDescription feature) {
 				FeatureRef featureRef = feature.getFeatureRef();
