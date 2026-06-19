@@ -13,16 +13,11 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: production
-      url: https://central.sonatype.com/publishing/io.github.che4
+      url: https://central.sonatype.com/artifact/io.github.che4/tycho-repository-plugin
     #if: github.ref == 'refs/heads/main'
     #if: github.ref == 'refs/heads/dev' && (startsWith(github.event.head_commit.message, 'release ') || startsWith(github.event.head_commit.message, 'rc ') )
     #if: github.base_ref == 'dev' && (startsWith(github.event.head_commit.message, 'release ') || startsWith(github.event.head_commit.message, 'rc ') )
     #if: startsWith(github.ref, 'refs/tags/') && github.base_ref == 'master' && contains(fromJSON('["release", "rc"]'), github.event.head_commit.message)
-
-    env:
-      MAVEN_TOKEN: ${{ secrets.MAVEN_CENTRAL_TOKEN }}
-      MAVEN_USERNAME: ${{ vars.MAVEN_CENTRAL_TOKEN_USERNAME }}
-      MAVEN_REPO: central
 
     steps:
       - uses: actions/checkout@v6
@@ -30,5 +25,24 @@ jobs:
         with:
           java-version: 17
           distribution: temurin
-      - name: Run the Maven verify phase
-        run: mvn --batch-mode --update-snapshots --global-settings ./.github/settings.xml -Drepo.id=$MAVEN_REPO -Drepo.username=$MAVEN_USERNAME -Drepo.token=$MAVEN_TOKEN deploy
+          cache: maven
+      - id: publish-to-central
+        name: Publish to Maven Central Repository
+        env:
+          MAVEN_REPO: central
+          MAVEN_PASSWORD: ${{ secrets.MAVEN_CENTRAL_TOKEN }}
+          MAVEN_USERNAME: ${{ vars.MAVEN_CENTRAL_TOKEN_USERNAME }}
+          SIGN_KEY: ${{ secrets.GPG_SECRET_KEY }}
+          SIGN_KEY_PASS: ${{ secrets.GPG_SECRET_KEY_PASSWORD }}
+          SIGN_KEY_ID: ${{ vars.GPG_SECRET_KEY_ID }}
+        run: >-
+          mvn
+          --no-transfer-progress
+          --batch-mode
+          --global-settings ./.github/settings.xml
+          -Drepo.id=$MAVEN_REPO
+          -Drepo.username=$MAVEN_USERNAME
+          -Drepo.token=$MAVEN_PASSWORD
+          deploy
+      #- name: Run the Maven verify phase
+      #  run: mvn --batch-mode --update-snapshots 

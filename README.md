@@ -1,5 +1,4 @@
-[![Build Status](https://travis-ci.org/che4/tycho-repository-plugin.svg?branch=master)](https://travis-ci.org/che4/tycho-repository-plugin)
-
+[![Release](https://github.com/che4/tycho-repository-plugin/actions/workflows/deploy.yml/badge.svg?event=workflow_dispatch)](https://github.com/che4/tycho-repository-plugin/actions/workflows/deploy.yml)
 
 This is a refactored maven-plugin [org.jboss.tools.tycho-plugins:repository-utils](https://github.com/jbosstools/jbosstools-maven-plugins/tree/master/tycho-plugins/repository-utils). I adjusted removal of default `Uncategorized` category from the generated P2 contents metadata &mdash; `defaultCategoryPattern`:
 
@@ -8,7 +7,7 @@ This is a refactored maven-plugin [org.jboss.tools.tycho-plugins:repository-util
 	<plugin>
 		<groupId>io.github.che4</groupId>
 		<artifactId>tycho-repository-plugin</artifactId>
-		<version>0.1</version>
+		<version>4.0.10</version>
 		<executions>
 			<execution>
 				<id>generate-update-site</id>
@@ -26,18 +25,4 @@ This is a refactored maven-plugin [org.jboss.tools.tycho-plugins:repository-util
 		</executions>
 	</plugin>
 </build>
-
-<pluginRepositories>
-	<pluginRepository>
-		<id>che4-public-repo</id>
-		<name>Che4 Public Repository (bintray.com)</name>
-		<url>https://dl.bintray.com/che4/maven/</url>
-		<releases>
-			<enabled>true</enabled>
-		</releases>
-		<snapshots>
-			<enabled>false</enabled>
-		</snapshots>
-	</pluginRepository>
-</pluginRepositories>
 ```
