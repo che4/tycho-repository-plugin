@@ -31,4 +31,4 @@ jobs:
           java-version: 17
           distribution: temurin
       - name: Run the Maven verify phase
-        run: mvn --batch-mode --update-snapshots --global-settings ./.github/settings.xml -Drepo.id=$MAVEN_REPO -Drepo.username=$MAVEN_USERNAME -Drepo.token=$MAVEN_TOKEN deploy
+        run: mvn -X --batch-mode --update-snapshots --global-settings ./.github/settings.xml -Drepo.id=$MAVEN_REPO -Drepo.username=$MAVEN_USERNAME -Drepo.token=$MAVEN_TOKEN deploy
