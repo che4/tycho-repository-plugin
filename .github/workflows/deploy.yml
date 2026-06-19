@@ -28,6 +28,8 @@ jobs:
           cache: maven
       - id: publish-to-central
         name: Publish to Maven Central Repository
+        # don't forget to register key:
+        # gpg --keyserver hkp://keyserver.ubuntu.com:80 --send-keys 56E0A..43
         env:
           MAVEN_REPO: central
           MAVEN_PASSWORD: ${{ secrets.MAVEN_CENTRAL_TOKEN }}

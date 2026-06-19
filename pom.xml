@@ -104,6 +104,9 @@
 				<groupId>org.simplify4u.plugins</groupId>
 				<artifactId>sign-maven-plugin</artifactId>
 				<version>1.1.0</version>
+				<configuration>
+					<skipNoKey>false</skipNoKey>
+				</configuration>
 				<executions>
 					<execution>
 						<goals>
