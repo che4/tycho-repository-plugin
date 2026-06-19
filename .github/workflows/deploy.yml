@@ -14,7 +14,7 @@ jobs:
     environment:
       name: production
       url: https://central.sonatype.com/publishing/io.github.che4
-    if: github.ref == 'refs/heads/main'
+    #if: github.ref == 'refs/heads/main'
     #if: github.ref == 'refs/heads/dev' && (startsWith(github.event.head_commit.message, 'release ') || startsWith(github.event.head_commit.message, 'rc ') )
     #if: github.base_ref == 'dev' && (startsWith(github.event.head_commit.message, 'release ') || startsWith(github.event.head_commit.message, 'rc ') )
     #if: startsWith(github.ref, 'refs/tags/') && github.base_ref == 'master' && contains(fromJSON('["release", "rc"]'), github.event.head_commit.message)
