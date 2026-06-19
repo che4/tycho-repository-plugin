@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>io.github.che4</groupId>
 	<artifactId>tycho-repository-plugin</artifactId>
-	<version>4.0.10-SNAPSHOT</version>
+	<version>4.0.10</version>
 	<name>Tycho repository maven plugin</name>
 	<packaging>maven-plugin</packaging>
 	
