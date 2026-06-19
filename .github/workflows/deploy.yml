@@ -30,4 +30,4 @@ jobs:
           java-version: 17
           distribution: temurin
       - name: Run the Maven verify phase
-        run: mvn --batch-mode --update-snapshots -Drepo.id=central -Drepo.login=$MAVEN_USERNAME -Drepo.pwd=$MAVEN_TOKEN 
+        run: mvn --batch-mode --update-snapshots -Drepo.id=central -Drepo.login=$MAVEN_USERNAME -Drepo.pwd=$MAVEN_TOKEN deploy
